@@ -53,6 +53,7 @@ function pathFinder(probability: number) {
       
     }
   }
+  
   console.table(numTable);
   console.table(colorTable);
 
