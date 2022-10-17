@@ -8,6 +8,8 @@ function pathFinder(probability: number) {
   let countBlack: number = 0;
   let countWhite: number = 0;
 
+  //Hello there
+
 // Definition of numTable and colorTable
   for (let row: number = 0; row < size; row++) {
 
