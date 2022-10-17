@@ -1,12 +1,17 @@
+// import Rand from 'rand-seed';
+// const rand = new Rand('afsdfas');
+
 function pathFinder(probability: number) {
 
   let numTable: Array<Array<number>> = [];
   let colorTable: Array<Array<string>> = [];
-  let black: Array<number> = [];
-  let white: Array<number> = [];
+  let black: number = 0;
+  let white: number = 0;
   const size: number = 5;
   let countBlack: number = 0;
   let countWhite: number = 0;
+
+
 
   //Hello there
 
@@ -33,57 +38,32 @@ function pathFinder(probability: number) {
   for (let row: number = 0; row < size; row++) {
     for (let col: number = 0; col < size; col++) {
 
-      // Is only getting used when row is 0
-      if (row == 0) {
-        if (colorTable[0][col] == "%") {
-          black.push(1);
-        } else {
-          white.push(0);
-        }
+      let b0 = (row === 0) && colorTable[0][col];
+      let b1 = (col > 0 && row > 0) && colorTable[row-1][col-1];
+      let b2 = (row > 0) && colorTable[row-1][col];
+      let b3 = (col < size - 1 && row > 0) && colorTable[row-1][col+1];
+      let b4 = (col > 0) && colorTable[row][col-1];
+
+      if (colorTable[row][col] === "%" && (b0 || b1 || b2 || b3 || b4))
+      {
+        black++;
+      } else {
+        white++;
       }
-
-      // Is only getting used when row is not 0
-      if (row !== 0) {
-
-        // Is only getting used when column is 0
-        if (col === 0) {
-          if ( colorTable[row - 1][col] == "%" ||  colorTable[row - 1][col + 1] == "%") {
-            black.push(1)
-          } else {
-            white.push(0);
-          }
-        }
-
-        // Is only getting used when column is at the last index of column
-        if (col == size - 1) {
-          if ( colorTable[row][col - 1] == "%" || colorTable[row - 1][col - 1] == "%" || colorTable[row - 1][col] == "%") {
-            black.push(1);
-          } else {
-            white.push(0);
-          }
-        }
-            
-            // Is only getting used when column is not 0
-        if (col !== 0 && col !== size - 1) {
-          if (colorTable[row][col - 1] == "%" || colorTable[row - 1][col - 1] == "%" || colorTable[row - 1][col] == "%" || colorTable[row - 1][col + 1] == "%") {
-            black.push(1);
-          } else {
-            white.push(0);
-          }
-        }
-      }
+      
     }
   }
   console.table(numTable);
   console.table(colorTable);
 
-  console.log(black.length);
-  console.log(white.length);
+  console.log("Tiles counted by algorithm:", black);
+  console.log("Tiles counted by algorithm:", white, "\n");
+
+  console.log("Tiles counted at initialization:",countBlack);
+  console.log("Tiles counted at initialization:",countWhite, "\n");
 
   console.log("% = Black");
   console.log("| = White \n");
-  console.log("CountBlack:",countBlack);
-  console.log("CountWhite:",countWhite);
 
   let probabilityCheck: number = countBlack / (size * size);
 
