@@ -5,7 +5,7 @@ function pathFinder(probability: number) {
 
   let numTable: Array<Array<number>> = [];
   let colorTable: Array<Array<number>> = [];
-  const size: number = 5;
+  const size: number = 10;
   let countBlack: number = 0;
   let countWhite: number = 0;
   let countPath: number = 1;
@@ -51,16 +51,16 @@ function pathFinder(probability: number) {
 
   for (let row: number = 1; row < size; row++) {
     for (let col: number = 0; col < size; col++) {
-  
-      let b0 = (row === 0) && colorTable[0][col];
-      let b1 = (col > 0 && row > 0) && colorTable[row-1][col-1];
-      let b2 = (row > 0) && colorTable[row-1][col];
-      let b3 = (col < size - 1 && row > 0) && colorTable[row-1][col+1];
-      let b4 = (col > 0) && colorTable[row][col-1];
+      if (colorTable[row][col] == -1) continue;
 
-      if (colorTable[row][col] >= 1 && (b1 || b2 || b3 || b4)) {
+      let b1 = (col > 0 && row > 0) ? colorTable[row-1][col-1] : -1;
+      let b2 = (row > 0) ? colorTable[row-1][col] : -1;
+      let b3 = (col < size - 1 && row > 0) ? colorTable[row-1][col+1] : -1;
+      let b4 = (col > 0) ? colorTable[row][col-1] : -1;
 
-      }
+      let mypath = Math.max(b1, b2, b3, b4)
+      
+      colorTable[row][col] = mypath;
     }
   }
   
@@ -78,4 +78,4 @@ function pathFinder(probability: number) {
   console.log("Probability Check:",probabilityCheck)
 };
 
-pathFinder(0.7);
+pathFinder(0.2);
