@@ -16,7 +16,8 @@ function pathFinder(probability: number) {
   let countWhite: number = 0;
   let countPath: number = 1;
 
-// Definition for the numTable and colorTable 2D arrays
+
+  // Definition for the numTable and colorTable 2D arrays
   for (let row: number = 0; row < size; row++) {
 
     // Creates a new array with length of size => size ~10?
@@ -63,7 +64,6 @@ function pathFinder(probability: number) {
   // Describes movement in 2D Array and checking for paths
   for (let row: number = 1; row < size; row++) {
     for (let col: number = 0; col < size; col++) {
-
       if (colorTable[row][col] == -1) continue;
 
       // To check if tile is occupied by specific Path
@@ -72,7 +72,8 @@ function pathFinder(probability: number) {
       let b2 = (row > 0) ? colorTable[row-1][col] : -1;
       let b3 = (col < size - 1 && row > 0) ? colorTable[row-1][col+1] : -1;
       let b4 = (col > 0) ? colorTable[row][col-1] : -1;
-
+      
+      if ((b1 && b2 && b3 && b4) === -1) continue;
       // Checks for the highest number found in the movement
       let mypath = Math.max(b1, b2, b3, b4)
       
@@ -81,17 +82,15 @@ function pathFinder(probability: number) {
     }
   }
 
+
   // Checks the very last row for paths; higher than 0 => path true
-  for (let row: number = 0; row < size; row++) {
-    for (let col: number = 0; col < size; col++) {
-      if (colorTable[size-1][col] >= 1) {
-        return true
-      } else {
-        return false
-      }
+  for (let col: number = 0; col < size; col++) {
+    if (colorTable[size-1][col] >= 1) {
+      return true
     }
   }
 };
+
 
 // function for different samples => creates different probabilitys
 function linspace(start: number, stop: number, num: number, endpoint = true) {
@@ -100,12 +99,15 @@ function linspace(start: number, stop: number, num: number, endpoint = true) {
   return Array.from({length: num}, (_, i) => start + step * i);
 }
 
+
 // sample range definition; Range 0 to 1 and 11 samples
-const probs: Array<number> = linspace(0, 1, 11)
+const probs: Array<number> = linspace(0, 1, 50)
+
 
 // The amount of repetitions of the simulation
-const num_repetitions = 100;
+const num_repetitions = 500;
 const ys: Array<number> = []
+
 
 // Runs the simulation and counts the paths found
 for (const p of probs) {
@@ -118,6 +120,7 @@ for (const p of probs) {
     }
   }
 
+  // Pushes probabilityes and results to array
   const y = path_found_count / num_repetitions;
   ys.push(y)
   console.log(p.toString() + "," + y.toString())

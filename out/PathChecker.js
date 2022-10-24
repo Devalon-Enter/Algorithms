@@ -45,10 +45,13 @@ function pathFinder(probability) {
             colorTable[0][col] = countPath;
             countPath++;
         }
+        // console.table(colorTable);
+        // console.log(col);
     }
     // Describes movement in 2D Array and checking for paths
     for (var row = 1; row < size; row++) {
         for (var col = 0; col < size; col++) {
+            console.table(colorTable);
             if (colorTable[row][col] == -1)
                 continue;
             // To check if tile is occupied by specific Path
@@ -57,10 +60,21 @@ function pathFinder(probability) {
             var b2 = (row > 0) ? colorTable[row - 1][col] : -1;
             var b3 = (col < size - 1 && row > 0) ? colorTable[row - 1][col + 1] : -1;
             var b4 = (col > 0) ? colorTable[row][col - 1] : -1;
+            if ((b1 && b2 && b3 && b4) === -1)
+                continue;
             // Checks for the highest number found in the movement
             var mypath = Math.max(b1, b2, b3, b4);
             // Assigns that highest number to current tile
             colorTable[row][col] = mypath;
+        }
+    }
+    if (probability === 0.5) {
+        console.table(colorTable);
+    }
+    // console.table(colorTable);
+    // Checks the very last row for paths; higher than 0 => path true
+    for (var row = 0; row < size; row++) {
+        for (var col = 0; col < size; col++) {
             if (colorTable[size - 1][col] >= 1) {
                 return true;
             }
@@ -69,14 +83,13 @@ function pathFinder(probability) {
             }
         }
     }
-    console.table(numTable);
-    console.table(colorTable);
-    console.log("Tiles counted at initialization:", countBlack);
-    console.log("Tiles counted at initialization:", countWhite, "\n");
-    console.log("1 or higher = Black");
-    console.log("-1 = White \n");
-    var probabilityCheck = countBlack / (size * size);
-    console.log("Probability Check:", probabilityCheck);
+    // console.table(numTable);
+    // console.log("Tiles counted at initialization:", countBlack);
+    // console.log("Tiles counted at initialization:", countWhite, "\n");
+    // console.log("% = Black");
+    // console.log("| = White \n");
+    // let probabilityCheck = countBlack / (size * size);
+    // console.log("Probability Check:", probabilityCheck);
 }
 ;
 // function for different samples => creates different probabilitys
@@ -86,22 +99,22 @@ function linspace(start, stop, num, endpoint) {
     var step = (stop - start) / div;
     return Array.from({ length: num }, function (_, i) { return start + step * i; });
 }
+// sample range definition; Range 0 to 1 and 11 samples
 var probs = linspace(0, 1, 11);
+// The amount of repetitions of the simulation
 var num_repetitions = 10;
 var ys = [];
+// Runs the simulation and counts the paths found
 for (var _i = 0, probs_1 = probs; _i < probs_1.length; _i++) {
     var p = probs_1[_i];
     var path_found_count = 0;
     for (var i = 0; i < num_repetitions; i++) {
         if (pathFinder(p)) {
-            console.log(p);
             path_found_count++;
-            console.log("Path found:", path_found_count);
         }
     }
     var y = path_found_count / num_repetitions;
     ys.push(y);
     console.log(p.toString() + "," + y.toString());
-    console.log(path_found_count);
 }
 //# sourceMappingURL=PathChecker.js.map
