@@ -14,7 +14,7 @@ After all the dependecies are installed to run a file, run this command in a ter
 
 ### Currently available algorithms
 There are currently two algorithms that I've fully explored. Not down to the full and completed math but a big chunk for each of them.
-- [Calculate PI (Monte Carlo Algoritm)](/
+- Calculate PI (Monte Carlo Algoritm)
 - Percolation (Graph form)
 
 ## Monte Carlo Algorithm
